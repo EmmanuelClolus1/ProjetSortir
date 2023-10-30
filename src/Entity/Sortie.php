@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,6 +42,27 @@ class Sortie
     #[Assert\NotBlank(message:'Les infos concernat la sortie sont obligatoires.')]
     #[Assert\Length(min: 20, max: 250, minMessage: 'La description doit faire au minimum 20 caractères.', maxMessage: 'La description doit faire maximum 250 caractères.')]
     private ?string $infosSortie = null;
+
+    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sortie')]
+    private Collection $participants;
+
+    #[ORM\ManyToOne(inversedBy: 'sortie')]
+    private ?Etat $etat = null;
+
+    #[ORM\ManyToOne(inversedBy: 'sortie')]
+    private ?Lieu $lieu = null;
+
+    #[ORM\ManyToOne(inversedBy: 'sortie')]
+    private ?Campus $campus = null;
+
+    #[ORM\ManyToOne(inversedBy: 'organisateur')]
+    private ?Participant $organisateur = null;
+
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -114,6 +137,81 @@ class Sortie
     public function setInfosSortie(string $infosSortie): static
     {
         $this->infosSortie = $infosSortie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participant $participant): static
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+            $participant->addSortie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participant $participant): static
+    {
+        if ($this->participants->removeElement($participant)) {
+            $participant->removeSortie($this);
+        }
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): static
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): static
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): static
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participant
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participant $organisateur): static
+    {
+        $this->organisateur = $organisateur;
 
         return $this;
     }
