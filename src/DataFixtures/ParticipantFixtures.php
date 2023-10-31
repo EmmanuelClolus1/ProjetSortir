@@ -23,9 +23,9 @@ class ParticipantFixtures extends Fixture
            $participant->setNom($faker->lastName());
            $participant->setPrenom($faker->firstName());
            $participant->setTelephone($faker->phoneNumber());
-           $participant->setMail('user'.$i.'@test.fr');
+           $participant->setEmail('user'.$i.'@test.fr');
            $motPasse = $this->userPasswordHasher->hashPassword($participant,'123456');
-           $participant->setMotPasse($motPasse);
+           $participant->setPassword($motPasse);
            $manager->persist($participant);
        }
 
