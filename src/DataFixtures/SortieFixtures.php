@@ -17,8 +17,7 @@ class SortieFixtures extends Fixture
            $sortie->setNom($faker->text(50));
            $sortie->setDateHeureDebut($faker->dateTimeBetween('-1 month', '+1 month'));
            $sortie->setDuree($faker->numberBetween(60, 120));
-           $dateMaxInscription = $faker->dateTimeBetween('now','+2 month');
-           $sortie->setDateLimiteInscription(\DateTime::createFromFormat('d-m-y',$dateMaxInscription));
+           $sortie->setDateLimiteInscription($faker->dateTimeBetween('now','+2 month'));
            $sortie->setNbInscriptionMax($faker->numberBetween(1,12));
            $sortie->setInfosSortie($faker->text);
            //$sortie->setOrganisateur()
