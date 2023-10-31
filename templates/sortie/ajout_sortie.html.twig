@@ -2,5 +2,8 @@
 
 {% block body %}
 
-    <h1></h1>
+    {{ form_start(sortieForm) }}
+    {{ form_widget(sortieForm) }}
+    <button>Créer</button>
+    {{ form_end(sortieForm) }}
 {% endblock %}
