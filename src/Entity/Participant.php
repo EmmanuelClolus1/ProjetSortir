@@ -58,6 +58,8 @@ class Participant
     {
         $this->sortie = new ArrayCollection();
         $this->organisateur = new ArrayCollection();
+        $this->administrateur=false;
+        $this->actif=true;
     }
 
     public function getId(): ?int
