@@ -17,6 +17,7 @@ class CampusFixtures extends Fixture
            $campus = new Campus();
            $campus->setNom($faker->name());
            $manager->persist($campus);
+           $this->addReference('campus'. $i, $campus);
        }
 
         $manager->flush();

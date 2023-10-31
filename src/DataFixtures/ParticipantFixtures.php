@@ -26,9 +26,19 @@ class ParticipantFixtures extends Fixture
            $participant->setMail('user'.$i.'@test.fr');
            $motPasse = $this->userPasswordHasher->hashPassword($participant,'123456');
            $participant->setMotPasse($motPasse);
+           $participant->setCampus($this->getReference('campus'. $i));
            $manager->persist($participant);
+           $this->addReference('organisateur'.$i,$participant);
+
        }
 
         $manager->flush();
+    }
+
+    public function getDependencies(){
+        return [
+          CampusFixtures::class,
+            SortieFixtures::class
+        ];
     }
 }
