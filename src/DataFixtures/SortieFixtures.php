@@ -4,10 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Sortie;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-;
 
-class SortieFixtures extends Fixture
+
+class SortieFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -17,16 +18,27 @@ class SortieFixtures extends Fixture
            $sortie->setNom($faker->text(50));
            $sortie->setDateHeureDebut($faker->dateTimeBetween('-1 month', '+1 month'));
            $sortie->setDuree($faker->numberBetween(60, 120));
-           $dateMaxInscription = $faker->dateTimeBetween('now','+2 month');
-           $sortie->setDateLimiteInscription(\DateTime::createFromFormat('d-m-y',$dateMaxInscription));
+           $sortie->setDateLimiteInscription($faker->dateTimeBetween('now','+2 month'));
            $sortie->setNbInscriptionMax($faker->numberBetween(1,12));
            $sortie->setInfosSortie($faker->text);
-           //$sortie->setOrganisateur()
-           //$sortie->setLieu()
-           //$sortie->setCampus()
-           //$sortie->setEtat()
+           $sortie->setOrganisateur($this->getReference('organisateur'.mt_rand(1,10)));
+           $sortie->setLieu($this->getReference('lieu'.mt_rand(1,10)));
+           $sortie->setCampus($this->getReference('campus'. $i));
+           $sortie->setEtat($this->getReference('etat'.mt_rand(1,6)));
+
            $manager->persist($sortie);
+
        }
         $manager->flush();
+    }
+
+    public function getDependencies(){
+        return [
+            CampusFixtures::class,
+            EtatFixtures::class,
+            ParticipantFixtures::class,
+            VilleFixtures::class,
+            LieuFixtures::class
+        ];
     }
 }

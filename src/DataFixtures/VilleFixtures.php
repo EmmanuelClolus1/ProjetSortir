@@ -20,8 +20,8 @@ class VilleFixtures extends Fixture
         $ville->setCodePostal($faker->postcode());
         $manager->persist($ville);
 
-       // $this->addReference('ville'.$i);
-}
+       $this->addReference('ville'.$i, $ville);
+        }
         $manager->flush();
     }
 
