@@ -29,7 +29,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
@@ -62,7 +61,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
        $this->administrateur=false;
        $this->actif=true;
        $this->sortie = new ArrayCollection();
-       $this->organisateur = new ArrayCollection();
+//       $this->organisateur = new ArrayCollection();
     }
 
     public function getId(): ?int

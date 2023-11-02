@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -19,8 +21,8 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('mail',EmailType::class)
-            ->add('motPasse', PasswordType::class, [
+            ->add('email',EmailType::class)
+            ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
 
@@ -48,7 +50,7 @@ class RegistrationFormType extends AbstractType
             ->add('prenom',TextType::class,[
                 'label'=>'Prénom'
             ])
-
+            ->add("campus",EntityType::class,['class'=>Campus::class,'choice_label'=>'nom'])
         ;
     }
 
