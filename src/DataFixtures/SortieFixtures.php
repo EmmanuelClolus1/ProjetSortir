@@ -35,10 +35,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(){
         return [
             CampusFixtures::class,
-            EtatFixtures::class,
             ParticipantFixtures::class,
-            VilleFixtures::class,
-            LieuFixtures::class
         ];
     }
 }
