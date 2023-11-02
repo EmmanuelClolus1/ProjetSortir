@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
@@ -15,7 +18,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 180)]
+    #[Assert\NotBlank]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -25,37 +29,40 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $telephone = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ['default'=>false])]
     private ?bool $administrateur = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ['default'=>true])]
     private ?bool $actif = null;
-//    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
-//    private Collection $inscrit;
-//
-//    #[ORM\ManyToOne(inversedBy: 'Participants')]
-//    private ?Campus $campus = null;
-//
-//    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: sortie::class)]
-//    private Collection $sortie;
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
+    private Collection $inscrit;
+
+    #[ORM\ManyToOne(inversedBy: 'Participants')]
+    private ?Campus $campus = null;
+
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: sortie::class)]
+    private Collection $sortie;
 
     public function __construct()
     {
        $this->administrateur=false;
        $this->actif=true;
-//       $this->sortie = new ArrayCollection();
-//       $this->organisateur = new ArrayCollection();
+       $this->sortie = new ArrayCollection();
+       $this->organisateur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -187,4 +194,40 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getInscrit(): Collection
+    {
+        return $this->inscrit;
+    }
+
+    public function addInscrit(Sortie $inscrit): static
+    {
+        if (!$this->inscrit->contains($inscrit)) {
+            $this->inscrit->add($inscrit);
+        }
+
+        return $this;
+    }
+
+    public function removeInscrit(Sortie $inscrit): static
+    {
+        $this->inscrit->removeElement($inscrit);
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): static
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
 }
