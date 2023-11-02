@@ -24,10 +24,10 @@ class SortieController extends AbstractController
             'sortieForm' => $sortieForm
         ]);
     }
-    #[Route('/details/', name:'details_sortie', methods: ['GET','POST'])]
-    public function details(SortieRepository $sortieRepo): Response{
+    #[Route('/{id}/details/', name:'details_sortie', methods: ['GET','POST'])]
+    public function details($id, SortieRepository $sortieRepo): Response{
 
-        $sortie = $this->getDoctrine()->getRepository(Sortie::class)->findBy([],['created_at' => 'desc']);
+        $sortie = $sortieRepo->find($id);
         return $this->render('Sortie/details_sortie.html.twig',
             [
                 'sortie' => $sortie,

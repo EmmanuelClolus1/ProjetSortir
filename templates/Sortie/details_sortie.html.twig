@@ -4,14 +4,19 @@
 
 {% block body %}
 
-
     <h1>AFFICHER UNE SORTIE</h1>
 
-
-
         Nom de la sortie : {{ sortie.nom }}<br>
-        Date et heure de la sortie : {{ sortie.dateHeureDebut | date('Y-m-d') }}
-
-
+        Date et heure de la sortie : {{ sortie.dateHeureDebut | date('Y-m-d') }}<br>
+        Date limite d'inscripiton : {{ sortie.dateLimiteInscription | date('Y-m-d')}} <br>
+        Nombre de places : {{ sortie.nbInscriptionMax}} <br>
+        Durée : {{ sortie.duree }}minutes <br>
+        Description et infos : {{ sortie.infosSortie }}<br>
+        Campus : {{ sortie.campus.nom }}<br>
+        Lieu : {{ sortie.lieu.nom }}<br>
+        Rue : {{ sortie.lieu.rue}} <br>
+        Code Postal : {{ sortie.lieu.ville.codePostal}} <br>
+        Latitude : {{ sortie.lieu.latitude}}<br>
+        Longitude : {{ sortie.lieu.longitude}} <br>
 
 {% endblock %}

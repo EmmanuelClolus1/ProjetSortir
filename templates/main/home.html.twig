@@ -68,8 +68,8 @@
             <td>/ {{ sortie.nbInscriptionMax }}</td>
             <td>{{ sortie.etat.libelle }}</td>
             <td>{# inscription #}</td>
-            <td> {{ sortie.organisateur.nom}} {{sortie.organisateur.prenom }} </td>
-            <td><a href="">Afficher</a>  | <a href="">Se désister</a> </td>
+            <td>   {{ sortie.organisateur.nom}} {{sortie.organisateur.prenom }}  </td>
+            <td> <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-secondary">Afficher</a>  | <a href="">Se désister</a> </td>
         </tr>
     {% endfor %}
           </tbody>
