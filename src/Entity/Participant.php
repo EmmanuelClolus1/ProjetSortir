@@ -41,21 +41,21 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $actif = null;
-//    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
-//    private Collection $inscrit;
-//
-//    #[ORM\ManyToOne(inversedBy: 'Participants')]
-//    private ?Campus $campus = null;
-//
-//    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: sortie::class)]
-//    private Collection $sortie;
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
+    private Collection $inscrit;
+
+    #[ORM\ManyToOne(inversedBy: 'Participants')]
+    private ?Campus $campus = null;
+
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: sortie::class)]
+    private Collection $sortie;
 
     public function __construct()
     {
        $this->administrateur=false;
        $this->actif=true;
-//       $this->sortie = new ArrayCollection();
-//       $this->organisateur = new ArrayCollection();
+       $this->sortie = new ArrayCollection();
+       $this->organisateur = new ArrayCollection();
     }
 
     public function getId(): ?int
