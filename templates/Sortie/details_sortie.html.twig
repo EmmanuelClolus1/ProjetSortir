@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} AFFICHER UNE SORTIE | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+
+    <h1>AFFICHER UNE SORTIE</h1>
+
+
+
+        Nom de la sortie : {{ sortie.nom }}<br>
+        Date et heure de la sortie : {{ sortie.dateHeureDebut | date('Y-m-d') }}
+
+
+
+{% endblock %}

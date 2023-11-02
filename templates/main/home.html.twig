@@ -10,8 +10,6 @@
     <label for="campus-select">Campus :</label>
     <select name="campus-select"  id="campus-select" required>
 
-
-
     </select>
     <br>
     <label for="site-search">Le nom de la sortie contient :</label>
@@ -70,7 +68,7 @@
             <td>/ {{ sortie.nbInscriptionMax }}</td>
             <td>{{ sortie.etat.libelle }}</td>
             <td>{# inscription #}</td>
-            <td>{{ sortie.organisateur.nom}} {{sortie.organisateur.prenom }}</td>
+            <td> {{ sortie.organisateur.nom}} {{sortie.organisateur.prenom }} </td>
             <td><a href="">Afficher</a>  | <a href="">Se désister</a> </td>
         </tr>
     {% endfor %}
