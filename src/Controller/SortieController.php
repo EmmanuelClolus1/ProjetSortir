@@ -37,6 +37,7 @@ class SortieController extends AbstractController
             };
 
             $em->persist($sortie);
+
             $em->flush();
 
 
@@ -46,7 +47,8 @@ class SortieController extends AbstractController
         }
 
         return $this->render("Sortie/ajout_sortie.html.twig", [
-            'sortieForm' => $sortieForm
+            'sortieForm' => $sortieForm,
+            'lieu' => $lieu
         ]);
     }
     #[Route('/{id}/details/', name:'details_sortie', methods: ['GET','POST'])]
