@@ -41,7 +41,6 @@ class SortieController extends AbstractController
 
 
             $em->persist($sortie);
-
             $em->flush();
 
 

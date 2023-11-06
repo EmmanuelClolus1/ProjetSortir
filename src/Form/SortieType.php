@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\DataFixtures\CampusFixtures;
 use App\Entity\Campus;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
@@ -55,12 +54,10 @@ class SortieType extends AbstractType
             ])
             ->add('campus', EntityType::class,[
                 'label' => 'campus',
+                'required' => true,
                 'class' => Campus::class,
-                'choice_label' => 'nom',
-                'placeholder' => 'Choissisez un campus',
-                'required' => true
-
-            ])
+                'choice_label' => 'nom'
+            ]);
 //            ->add('ville', EntityType::class,[
 //                'label' => 'Ville',
 //                'placeholder' => 'Sélectionner une ville',
@@ -76,7 +73,7 @@ class SortieType extends AbstractType
 //                'choice_label'=>'nom',
 //            ])
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'))
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
         $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'))
         ;
     }

@@ -28,6 +28,7 @@ class ParticipantFixtures extends Fixture
            $motPasse = $this->userPasswordHasher->hashPassword($participant,'123456');
            $participant->setPassword($motPasse);
            $participant->setCampus($this->getReference('campus'. $i));
+           $participant->setRoles(['ROLE_USER']);
            $manager->persist($participant);
            $this->addReference('organisateur'.$i,$participant);
 
