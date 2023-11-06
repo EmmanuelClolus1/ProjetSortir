@@ -21,10 +21,14 @@ class ParticipantType extends AbstractType
     {
         $builder
             ->add('email',EmailType::class)
-            ->add('plainPassword', PasswordType::class, [
-                'label'=>'Mot de passe',
+            ->add('plainPassword', RepeatedType::class, [
+                'type'=>PasswordType::class,
+                'invalid_message'=>'Le mot de passe doit correspondre dans les deux champs',
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'options'=>['attr'=>['class'=>'password-field']],
+                'required'=>true,
+                'first_options'  => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmation mot de passe'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
