@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Form\FilterModelType;
 use App\Form\Model\FilterModel;
 use App\Repository\SortieRepository;
@@ -21,14 +22,18 @@ class MainController extends AbstractController
         $form = $this->createForm(FilterModelType::class, $filterModel);
         $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid()) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-           $filterModel->setSortiePassées($this->getUser());
-            }
+            dump($filterModel);
+//
+       }
+
             $sorties = $sortieRepo->findAll();
             return $this->render('main/home.html.twig',
                 [
                     'sorties' => $sorties,
+                    'form' => $form
+
                 ]);
 
 

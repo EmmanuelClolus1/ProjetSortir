@@ -81,9 +81,9 @@ class FilterModel
     }
 
     /**
-     * @param mixed $sortiePassées
+     * @param mixed $sortiePassees
      */
-    public function setSortiePassées($sortiePassees): void
+    public function setSortiePassees($sortiePassees): void
     {
         $this->sortiePassees = $sortiePassees;
     }
