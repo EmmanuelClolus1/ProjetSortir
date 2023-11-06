@@ -14,22 +14,19 @@ li{
     margin-right: 30px;
 }
 
+
 .nav-item:hover {
     -ms-transform: scale(1.5);
     -webkit-transform: scale(1.5);
     transform: scale(1.5);
-    color: white;
 }
-a, a:hover {
-    color: white;
-    text-decoration: none; /* Pour supprimer le soulignement au survol si vous en avez un par défaut */
-}
-
 
 
 .nav-link{
     color: white;
+    margin-right: 20px;
 }
+
 .navbar-brand{
     color: white;
 }
@@ -37,20 +34,22 @@ a, a:hover {
 .card{
     margin: auto;
     margin-top: 50px;
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
 footer{
-    background-color: darkgray;
+    background : linear-gradient(black,grey) ;
     text-align:center;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+    color: white;
 }
 
 .table{
     opacity: 80%;
     border: solid 2px black;
     border-radius: 20px;
+    margin-top: 20px;
 }

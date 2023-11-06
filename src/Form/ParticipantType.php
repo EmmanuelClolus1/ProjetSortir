@@ -41,10 +41,7 @@ class ParticipantType extends AbstractType
                     ]),
                 ],
             ])
-            //->add('confirmation', PasswordType::class,[
-             //   'label'=>'confirmation',
-            //    'mapped'=>false
-          //  ])
+
             ->add('telephone',TextType::class,[
                 'label'=>'Téléphone',
                 'required'=>false,

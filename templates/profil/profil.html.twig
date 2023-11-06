@@ -11,9 +11,9 @@
             <p  class="card-text">{{ participant.email }}</p>
             <p class="card-text">{{ participant.telephone }}</p>
             <p class="card-text">{{ participant.campus ? participant.campus.nom}}</p>
-            <a href="{{ path('modifier_profil', {'id': participant.id}) }}" title="Modifier mon profil">
+            <a href="{{ path('modifier_profil', {'id': participant.id}) }}" class="btn btn-info" title="Modifier mon profil">
                 Modifier</a>
-            <a href="#" class="card-link">Supprimer</a>
+            <a href="#" class="btn btn-danger">Supprimer</a>
         </div>
     </div>
 {% endblock %}
