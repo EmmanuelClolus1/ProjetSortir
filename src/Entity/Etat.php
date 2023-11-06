@@ -5,9 +5,7 @@ namespace App\Entity;
 use App\Repository\EtatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
 
 #[ORM\Entity(repositoryClass: EtatRepository::class)]
 class Etat
@@ -17,7 +15,7 @@ class Etat
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 15, options: ['default' => 'Ouvert'])]
+    #[ORM\Column(length: 20)]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'etat', targetEntity: Sortie::class)]
@@ -25,7 +23,6 @@ class Etat
 
     public function __construct()
     {
-        $this->libelle = "Ouvert";
         $this->sortie = new ArrayCollection();
     }
 
