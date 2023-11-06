@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Form\Model;
+use App\Form\FilterModelType;
+use Symfony\Component\Form\FormTypeInterface;
+
 
 class FilterModel
 {
@@ -11,7 +14,7 @@ class FilterModel
 
     private $sortiePasInscrit;
 
-    private $sortiePassées;
+    private $sortiePassees;
 
     private $filtreCampus;
 
@@ -72,17 +75,17 @@ class FilterModel
     /**
      * @return mixed
      */
-    public function getSortiePassées()
+    public function getSortiePassees()
     {
-        return $this->sortiePassées;
+        return $this->sortiePassees;
     }
 
     /**
      * @param mixed $sortiePassées
      */
-    public function setSortiePassées($sortiePassées): void
+    public function setSortiePassées($sortiePassees): void
     {
-        $this->sortiePassées = $sortiePassées;
+        $this->sortiePassees = $sortiePassees;
     }
 
     /**
