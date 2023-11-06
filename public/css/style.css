@@ -1,0 +1,55 @@
+body{
+
+    background-image:url("../images/test1.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.navbar {
+    background: linear-gradient(black, grey);
+}
+
+li{
+    margin-right: 30px;
+}
+
+
+.nav-item:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+}
+
+
+.nav-link{
+    color: white;
+    margin-right: 20px;
+}
+
+.navbar-brand{
+    color: white;
+}
+
+.card{
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 20px;
+}
+
+footer{
+    background : linear-gradient(black,grey) ;
+    text-align:center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: white;
+}
+
+.table{
+    opacity: 80%;
+    border: solid 2px black;
+    border-radius: 20px;
+    margin-top: 20px;
+}
