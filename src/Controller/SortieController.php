@@ -27,6 +27,8 @@ class SortieController extends AbstractController
 
         $sortieForm->handleRequest($request);
 
+
+
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
 
             $sortie->setOrganisateur($this->getUser());
@@ -35,6 +37,8 @@ class SortieController extends AbstractController
                 $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
                 $sortie->setEtat($etat);
             };
+
+
 
             $em->persist($sortie);
 
@@ -47,8 +51,7 @@ class SortieController extends AbstractController
         }
 
         return $this->render("Sortie/ajout_sortie.html.twig", [
-            'sortieForm' => $sortieForm,
-            'lieu' => $lieu
+            'sortieForm' => $sortieForm
         ]);
     }
     #[Route('/{id}/details/', name:'details_sortie', methods: ['GET','POST'])]
