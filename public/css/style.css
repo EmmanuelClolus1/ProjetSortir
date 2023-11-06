@@ -5,6 +5,9 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
+h1{
+    text-align: center;
+}
 
 .navbar {
     background: linear-gradient(black, grey);
@@ -20,6 +23,7 @@ li{
     -webkit-transform: scale(1.5);
     transform: scale(1.5);
 }
+
 
 
 .nav-link{
@@ -52,4 +56,7 @@ footer{
     border: solid 2px black;
     border-radius: 20px;
     margin-top: 20px;
+}
+.carousel-inner{
+    height: 600px;
 }

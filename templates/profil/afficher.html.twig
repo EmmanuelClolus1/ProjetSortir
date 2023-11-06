@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>PROFIL</h1>
+    <div class="card" style="width: 18rem;">
+        <img src="" class="card-img-top" alt="">
+        <div class="card-body">
+            <p class="card-text"><b>Nom : </b> {{ participant.nom }}</p>
+            <p class="card-text"><b>Prénom : </b> {{ participant.prenom }}</p>
+            <p  class="card-text"><b>Email : </b> {{ participant.email }}</p>
+            <p class="card-text"><b>Téléphone : </b> {{ participant.telephone }}</p>
+            <p class="card-text"><b>Campus : </b> {{ participant.campus ? participant.campus.nom}}</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

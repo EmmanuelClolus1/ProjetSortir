@@ -3,10 +3,11 @@
 {% block title %}Modifier votre profil{% endblock %}
 
 {% block body %}
-    <h1>Modifier votre profil</h1>
+    <h1>MODIFIER VOTRE PROFIL</h1>
     {{ form_errors(ParticipantForm) }}
     {{ form_start(ParticipantForm) }}
     {{ form_widget(ParticipantForm) }}
     <button type="submit" class="btn btn-primary">Valider</button>
+
     {{ form_end(ParticipantForm) }}
 {% endblock %}
