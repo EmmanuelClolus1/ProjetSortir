@@ -6,8 +6,24 @@
     <h1>MODIFIER VOTRE PROFIL</h1>
     {{ form_errors(ParticipantForm) }}
     {{ form_start(ParticipantForm) }}
-    {{ form_widget(ParticipantForm) }}
+    {{ form_row(ParticipantForm.email) }}
+    {{ form_row(ParticipantForm.plainPassword) }}
+    {{ form_row(ParticipantForm.telephone) }}
+    {{ form_row(ParticipantForm.nom) }}
+    {{ form_row(ParticipantForm.prenom) }}
+    {{ form_row(ParticipantForm.campus) }}
+    <div class="d-flex">
+        <div class="col-sm-9">
+           {{ form_row(ParticipantForm.image)}}
+        </div>
+        <div class="col-sm-3">
+            {% if ParticipantForm.vars.value.filename != null %}
+                <img src="{{ asset(app_images_participant_directory ~ '/' ~ ParticipantForm.vars.value.filename) }}"
+                class="img-fluid" alt="image"/>
+            {{ form_row(ParticipantForm.deleteImage) }}
+            {% endif %}
+        </div>
+    </div>
     <button type="submit" class="btn btn-primary">Valider</button>
-
     {{ form_end(ParticipantForm) }}
 {% endblock %}

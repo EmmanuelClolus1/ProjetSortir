@@ -2,8 +2,10 @@
 
 {% block body %}
 <h1>PROFIL</h1>
-    <div class="card" style="width: 18rem;">
-        <img src="" class="card-img-top" alt="">
+    <div class="card"style="width: 18rem;" >
+        {% if participant.filename %}
+            <img src="{{ asset(app_images_participant_directory ~ '/' ~ participant.filename) }}"/>
+        {% endif %}
         <div class="card-body">
             <p class="card-text"><b>Nom : </b> {{ participant.nom }}</p>
             <p class="card-text"><b>Prénom : </b> {{ participant.prenom }}</p>
