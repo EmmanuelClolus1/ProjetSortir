@@ -6,18 +6,24 @@
 
     <h1>AFFICHER UNE SORTIE</h1>
 
-        Nom de la sortie : {{ sortie.nom }}<br>
-        Date et heure de la sortie : {{ sortie.dateHeureDebut | date('Y-m-d') }}<br>
-        Date limite d'inscripiton : {{ sortie.dateLimiteInscription | date('Y-m-d')}} <br>
-        Nombre de places : {{ sortie.nbInscriptionMax}} <br>
-        Durée : {{ sortie.duree }}minutes <br>
-        Description et infos : {{ sortie.infosSortie }}<br>
-        Campus : {{ sortie.campus.nom }}<br>
-        Ville : {{ sortie.lieu.ville.nom }}<br>
-        Lieu : {{ sortie.lieu.nom }}<br>
-        Rue : {{ sortie.lieu.rue}} <br>
-        Code Postal : {{ sortie.lieu.ville.codePostal}} <br>
-        Latitude : {{ sortie.lieu.latitude}}<br>
-        Longitude : {{ sortie.lieu.longitude}} <br>
+    <div class="card" style="width: 18rem;">
+        <img src="" class="card-img-top" alt="">
+        <div class="card-body">
+            <p class="card-text"><b>Nom sortie: </b> {{ sortie.nom }}</p>
+            <p class="card-text"><b>Date et heure sortie : </b>{{ sortie.dateHeureDebut | date('Y-m-d') }}</p>
+            <p  class="card-text"><b>Date limite inscription : </b>{{ sortie.dateLimiteInscription | date('Y-m-d')}}</p>
+            <p class="card-text"><b>Nombre de places : </b>{{ sortie.nbInscriptionMax}}</p>
+            <p class="card-text"><b>Durée : </b> {{ sortie.duree }}minutes</p>
+            <p class="card-text"><b>Description et infos : </b>{{ sortie.infosSortie }}</p>
+            <p class="card-text"><b>Campus : </b>{{ sortie.campus.nom }}</p>
+            <p class="card-text"><b>Lieu : </b>{{ sortie.lieu.nom }}</p>
+            <p class="card-text"><b>Rue : </b>{{ sortie.lieu.rue}}</p>
+            <p class="card-text"><b>Code Postal : </b>{{ sortie.lieu.ville.codePostal}}</p>
+            <p class="card-text"><b>Latitude : </b>{{ sortie.lieu.latitude}}</p>
+            <p class="card-text"><b>Longitude : </b>{{ sortie.lieu.longitude}}</p>
+            <a href="{{ path('main_home') }}" class="btn btn-warning" title="">
+                Retour</a>
+        </div>
+    </div>
 
 {% endblock %}
