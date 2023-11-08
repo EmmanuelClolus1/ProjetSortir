@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Form\Model;
+use App\Entity\Campus;
 use App\Form\FilterModelType;
 use Symfony\Component\Form\FormTypeInterface;
 
@@ -16,7 +17,7 @@ class FilterModel
 
     private $sortiePassees;
 
-    private $filtreCampus;
+    private ?Campus $filtreCampus = null;
 
     private $filtreRecherche;
 

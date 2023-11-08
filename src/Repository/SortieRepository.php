@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Form\Model\FilterModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +21,46 @@ class SortieRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sortie::class);
+
+    }
+
+    public function findByFilter(FilterModel $filterModel)
+    {
+        $qb = $this->createQueryBuilder('s');
+
+
+        if ($filterModel->getFiltreCampus()) {
+
+        $qb->leftJoin('s.campus', 'c');
+
+            $qb->andWhere('s.campus = :campus')
+                ->setParameter('campus', $filterModel->getFiltreCampus());
+        }
+        if ($filterModel->getFiltreRecherche()) {
+            $recherche = $filterModel->getFiltreRecherche(); // Get the search value from the filter model
+
+            $qb->andWhere('s.nom LIKE :nom')
+                ->setParameter('nom', '%' . $recherche . '%');
+        }
+            if($filterModel->getDateDebut()){
+
+            }
+            if ($filterModel->getDateFin()){
+
+            }
+            if ($filterModel->getSortieInscrit()){
+
+            }
+            if ($filterModel->getSortieOrganisateur()){
+
+            }
+            if ($filterModel->getSortiePasInscrit()){
+
+
+            }
+
+        $query = $qb->getQuery();
+        return $query->getResult();
     }
 
 
