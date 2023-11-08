@@ -53,6 +53,34 @@ class SortieController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/modifier', name: 'modifier_sortie', requirements: ['id' => '\d+'], methods: ['GET','POST']) ]
+    public function modifierSortie(Request $request, EntityManagerInterface $em, Sortie $sortie): Response
+    {
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+            $sortie->setOrganisateur($this->getUser());
+
+            if ($sortieForm->isSubmitted() && ($sortie->getDateLimiteInscription() > $sortie->getDateHeureDebut())){
+                $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
+                $sortie->setEtat($etat);
+            };
+
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash('success','La sortie à bien été créée');
+            return $this->redirectToRoute('details_sortie', ['id'=>$sortie->getId()]);
+        }
+
+        return $this->render("Sortie/modifier_sortie.html.twig", [
+            'sortieForm' => $sortieForm,
+        ]);
+    }
+
     #[Route('/{id}/details', name:'details_sortie', methods: ['GET','POST'])]
     public function details($id, SortieRepository $sortieRepo): Response{
 

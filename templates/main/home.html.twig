@@ -89,7 +89,7 @@
                 {% endif %}
 
            {% elseif app.user.id == sortie.organisateur.id and sortie.etat.libelle == "Ouverte"  %}
-                 <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="" class="btn btn-info">Modifier</a>
+                 <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="{{ path('modifier_sortie', {'id': sortie.id}) }}" class="btn btn-info">Modifier</a>
                {% else  %}
                    <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>
 
