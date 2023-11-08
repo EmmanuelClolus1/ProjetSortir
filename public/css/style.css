@@ -24,7 +24,9 @@ li{
     transform: scale(1.5);
 }
 
-
+#nomconnexion{
+    text-decoration: none;
+}
 
 .nav-link{
     color: white;
@@ -59,4 +61,8 @@ footer{
 }
 .carousel-inner{
     height: 600px;
+}
+#carouselExampleIndicators{
+    border: 2px solid black;
+    border-radius: 5px;
 }
