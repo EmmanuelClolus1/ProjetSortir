@@ -6,12 +6,18 @@ use App\Entity\Campus;
 use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -52,8 +58,40 @@ class ParticipantType extends AbstractType
             ->add('prenom',TextType::class,[
                 'label'=>'Prénom'
             ])
-            ->add("campus",EntityType::class,['class'=>Campus::class,'choice_label'=>'nom'])
-        ;
+            ->add("campus",EntityType::class,[
+                'class'=>Campus::class,'choice_label'=>'nom'])
+            ->add('image',FileType::class,[
+               'mapped'=>false,
+               'required'=>false,
+               'constraints'=>[
+                   new File([
+                       'maxSize'=>'1M',
+                       'mimeTypes'=>[
+                           'image/jpeg',
+                           'image/png',
+                       ],
+                       'mimeTypesMessage'=>'Please upload a valid image',
+                   ])
+               ]
+            ]);
+//            ->add('delete',CheckboxType::class,[
+//              'label'=>"supprimer l'image",
+//              'required'=>false,
+//                'mapped'=>false,
+//            ]);
+            
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event){
+            $participant = $event->getData();
+            if ($participant && $participant->getFilename()){
+                $form = $event->getForm();
+                $form->add('deleteImage',CheckboxType::class,[
+                    'label'=>"supprimer l'image",
+                    'required'=>false,
+                    'mapped'=>false,
+                ]);
+            }
+        });
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

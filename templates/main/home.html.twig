@@ -3,24 +3,72 @@
 {% block title %}HOME | {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>SORTIES</h1>
+<h1>ACCUEIL SORTIES</h1>
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ asset('images/bar.jpg') }}" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ asset('images/musee.jpg') }}" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ asset('images/theatre.jpg') }}" class="d-block w-100" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 
     <h2>Filtrer les sorties</h2>
-    {{ form_start(form) }}
-    <div class="campus">
-    {{ form_label(form.filtreCampus) }}
-    {{ form_widget(form.filtreCampus) }}
-    </div>
-    <div class="recherche">
-        {{ form_label(form.filtreRecherche) }}
-        {{ form_widget(form.filtreRecherche) }}
-    </div>
-    <button type="submit">Rechercher</button>
-    {{ form_end(form) }}
 
+    <label for="campus-select">Campus :</label>
+    <select name="campus-select"  id="campus-select" required>
+
+    </select>
+    <br>
+    <label for="site-search">Le nom de la sortie contient :</label>
+    <input type="search" id="site-search" name="q" />
 
     <br>
-    <table class="table" >
+    Entre <input type="date" name="datePicker"> et le <input type="date" name="datePicker2">
+    <br>
+
+    <fieldset>
+
+        <div>
+            <input type="checkbox" id="scales" name="scales" checked />
+            <label for="scales">Sorties dont je suis l'organisateur/trice</label>
+        </div>
+        <div>
+            <input type="checkbox" id="horns" name="horns" />
+            <label for="horns">Sorties auxquelles je suis inscrit/e</label>
+        </div>
+        <div>
+            <input type="checkbox" id="horns" name="horns" />
+            <label for="horns">Sorties auxquelles je ne suis pas incrit/e</label>
+        </div>
+        <div>
+            <input type="checkbox" id="horns" name="horns" />
+            <label for="horns">Sorties passées</label>
+        </div>
+
+    </fieldset>
+    <br>
+    <button type="submit" class="btn btn-primary">Rechercher</button>
+    <br>
+    <table class="table">
     <thead>
 
     <tr>
@@ -46,8 +94,8 @@
             <td>/ {{ sortie.nbInscriptionMax }}</td>
             <td>{{ sortie.etat.libelle }}</td>
             <td>{# inscription #}</td>
-            <td>   {{ sortie.organisateur.nom}} {{sortie.organisateur.prenom }}  </td>
-            <td> <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-secondary">Afficher</a>  | <a href="">Se désister</a> </td>
+            <td> <a href="{{ path('afficher_profil', {'id': sortie.organisateur.id}) }}" >{{ sortie.organisateur.nom}} {{sortie.organisateur.prenom }}</a>  </td>
+            <td> <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-info">Afficher</a>  | <a href="" class="btn btn-danger">Se désister</a> </td>
         </tr>
     {% endfor %}
           </tbody>

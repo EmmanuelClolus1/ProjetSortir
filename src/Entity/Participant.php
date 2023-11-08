@@ -56,6 +56,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: sortie::class)]
     private Collection $sortie;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $filename = null;
+
     public function __construct()
     {
        $this->administrateur=false;
@@ -225,6 +228,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCampus(?Campus $campus): static
     {
         $this->campus = $campus;
+
+        return $this;
+    }
+
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    public function setFilename(?string $filename): static
+    {
+        $this->filename = $filename;
 
         return $this;
     }
