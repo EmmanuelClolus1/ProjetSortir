@@ -30,8 +30,6 @@ class SortieController extends AbstractController
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
-        $campusOrganisateur = $this->getUser()->getCampus();
-
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
@@ -52,7 +50,6 @@ class SortieController extends AbstractController
 
         return $this->render("Sortie/ajout_sortie.html.twig", [
             'sortieForm' => $sortieForm,
-            'campusOrganisateur' => $campusOrganisateur
         ]);
     }
 

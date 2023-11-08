@@ -80,12 +80,22 @@
             <td> <a href="{{ path('afficher_profil', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.nom}} {{sortie.organisateur.prenom }}</a></td>
 
             <td>
+           {% if sortie.etat.libelle == "Ouverte" and app.user.id != sortie.organisateur.id %}
+
                 {% if app.user in sortie.participants %}
-                <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="{{ path('desinscription_sortie', {'id': sortie.id}) }}" class="btn btn-danger">Se désister</a>
+                    <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="{{ path('desinscription_sortie', {'id': sortie.id}) }}" class="btn btn-danger">Se désister</a>
                 {% else %}
                     <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="{{ path('inscription_sortie', {'id': sortie.id}) }}" class="btn btn-success">S'inscrire</a>
                 {% endif %}
-                    </td>
+
+           {% elseif app.user.id == sortie.organisateur.id and sortie.etat.libelle == "Ouverte"  %}
+                 <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="" class="btn btn-info">Modifier</a>
+               {% else  %}
+                   <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>
+
+           {% endif %}
+            </td>
+
 
         </tr>
     {% endfor %}
