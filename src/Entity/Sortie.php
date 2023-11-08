@@ -45,7 +45,7 @@ class Sortie
     #[Assert\Length(min: 20, max: 250, minMessage: 'La description doit faire au minimum 20 caractères.', maxMessage: 'La description doit faire maximum 250 caractères.')]
     private ?string $infosSortie = null;
 
-    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sortie')]
+    #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: 'Sortie')]
     private Collection $participants;
 
     #[ORM\ManyToOne(inversedBy: 'sortie')]
@@ -155,7 +155,7 @@ class Sortie
     {
         if (!$this->participants->contains($participant)) {
             $this->participants->add($participant);
-            $participant->addSortie($this);
+            $participant->addInscrit($this);
         }
 
         return $this;
@@ -164,7 +164,7 @@ class Sortie
     public function removeParticipant(Participant $participant): static
     {
         if ($this->participants->removeElement($participant)) {
-            $participant->removeSortie($this);
+            $participant->removeInscrit($this);
         }
 
         return $this;

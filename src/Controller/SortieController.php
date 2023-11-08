@@ -56,7 +56,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/details/', name:'details_sortie', methods: ['GET','POST'])]
+    #[Route('/{id}/details', name:'details_sortie', methods: ['GET','POST'])]
     public function details($id, SortieRepository $sortieRepo): Response{
 
         $sortie = $sortieRepo->find($id);
@@ -65,5 +65,17 @@ class SortieController extends AbstractController
                 'sortie' => $sortie,
             ]);
     }
+
+    #[Route('sortie/{id}/desinscription', name:'inscription_sortie',requirements: ['id' => '\d+'])]
+    public function desinscription(Sortie $sortie, EntityManagerInterface $em): Response{
+        $user=$this->getUser();
+        $sortie->addParticipant($user);
+        $em->persist($sortie);
+        $em->flush();
+        $this->addFlash('success','ok');
+        return $this->redirectToRoute('main_home');
+
+    }
+
 
 }

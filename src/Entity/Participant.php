@@ -64,7 +64,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
        $this->administrateur=false;
        $this->actif=true;
        $this->sortie = new ArrayCollection();
-//       $this->organisateur = new ArrayCollection();
+       $this->organisateur = new ArrayCollection();
     }
 
     public function getId(): ?int

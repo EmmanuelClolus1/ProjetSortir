@@ -16,7 +16,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i=1;$i <=10;$i++){
             $lieu = new Lieu();
-            $lieu->setNom($faker->address);
+            $lieu->setNom($faker->text(maxNbChars: 20));
             $lieu->setRue($faker->streetAddress);
             $lieu->setLatitude($faker->latitude);
             $lieu->setLongitude(($faker->longitude));

@@ -69,7 +69,8 @@
             <td>{{ sortie.etat.libelle }}</td>
             <td>{# inscription #}</td>
             <td>   {{ sortie.organisateur.nom}} {{sortie.organisateur.prenom }}  </td>
-            <td> <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-info">Afficher</a>  | <a href="" class="btn btn-danger">Se désister</a> </td>
+            <td> <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-info">Afficher</a>  | <a href="{{ path('inscription_sortie', {'id': sortie.id}) }}" class="btn btn-danger">Se désister</a> </td>
+
         </tr>
     {% endfor %}
           </tbody>
