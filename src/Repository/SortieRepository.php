@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\Persistence\ManagerRegistry;
 use http\Client\Curl\User;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -20,7 +21,7 @@ use http\Client\Curl\User;
  */
 class SortieRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private Security $security)
     {
         parent::__construct($registry, Sortie::class);
 
@@ -33,7 +34,7 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($filterModel->getFiltreCampus()) {
 
-        $qb->leftJoin('s.campus', 'c');
+            $qb->leftJoin('s.campus', 'c');
 
             $qb->andWhere('s.campus = :campus')
                 ->setParameter('campus', $filterModel->getFiltreCampus());
@@ -44,32 +45,45 @@ class SortieRepository extends ServiceEntityRepository
             $qb->andWhere('s.nom LIKE :nom')
                 ->setParameter('nom', '%' . $recherche . '%');
         }
-            if($filterModel->getDateDebut()){
+        if ($filterModel->getDateDebut()) {
+        $qb->andWhere('s.dateHeureDebut >= :date_heure_debut')
+            ->setParameter('date_heure_debut', $filterModel->getDateDebut());
+        }
 
-            }
-            if ($filterModel->getDateFin()){
 
-            }
-            if ($filterModel->getSortieInscrit()){
+        if ($filterModel->getDateFin()) {
+            $qb->andWhere('s.dateLimiteInscription <= :date_limite_inscription')
+                ->setParameter('date_limite_inscription', $filterModel->getDateFin());
+        }
 
-            }
-            if ($filterModel->getSortieOrganisateur()){
-                $qb->leftJoin('s.organisateur', 'o');
 
-                $qb->andWhere('s.organisateur = :organisateur')
-                    ->setParameter('organisateur',);
-            }
-            if ($filterModel->getSortiePasInscrit()){
-                $qb->leftJoin();
+        if ($filterModel->getSortieInscrit()) {
+        $qb->andWhere(':sortieInscrit MEMBER OF s.participants')
+        ->setParameter('sortieInscrit', $this->security->getUser());
+        }
 
-            }
-            if ($filterModel->getSortiePassees()){
-                $qb->leftJoin('s.etat', 'e' );
 
-                $qb->andWhere('e.libelle = :etatLib')
-                    ->setParameter('etatLib', 'Passée');
+        if ($filterModel->getSortieOrganisateur()) {
+            $qb->leftJoin('s.organisateur', 'o');
 
-           }
+            $qb->andWhere('s.organisateur = :organisateur')
+                ->setParameter('organisateur', $this->security->getUser());
+        }
+
+
+        if ($filterModel->getSortiePasInscrit()) {
+            $qb->andWhere(':sortieInscrit NOT MEMBER OF s.participants')
+                ->setParameter('sortieInscrit', $this->security->getUser());
+        }
+
+
+        if ($filterModel->getSortiePassees()) {
+            $qb->leftJoin('s.etat', 'e');
+
+            $qb->andWhere('e.libelle = :etatLib')
+                ->setParameter('etatLib', 'Passée');
+
+        }
         $query = $qb->getQuery();
         return $query->getResult();
     }
