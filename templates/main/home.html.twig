@@ -32,37 +32,17 @@
     </div>
 
     <h2>Filtrer les sorties</h2>
-
-    <label for="campus-select">Campus :</label>
-    <select name="campus-select"  id="campus-select" required>
-
-    </select>
-    <br>
-    <label for="site-search">Le nom de la sortie contient :</label>
-    <input type="search" id="site-search" name="q" />
-
-    <br>
-    Entre <input type="date" name="datePicker"> et le <input type="date" name="datePicker2">
-    <br>
-
-    <fieldset>
-
-        <div>
-            <input type="checkbox" id="scales" name="scales" checked />
-            <label for="scales">Sorties dont je suis l'organisateur/trice</label>
-        </div>
-        <div>
-            <input type="checkbox" id="horns" name="horns" />
-            <label for="horns">Sorties auxquelles je suis inscrit/e</label>
-        </div>
-        <div>
-            <input type="checkbox" id="horns" name="horns" />
-            <label for="horns">Sorties auxquelles je ne suis pas incrit/e</label>
-        </div>
-        <div>
-            <input type="checkbox" id="horns" name="horns" />
-            <label for="horns">Sorties passées</label>
-        </div>
+    {{ form_start(form) }}
+    <div class="campus">
+    {{ form_label(form.filtreCampus) }}
+    {{ form_widget(form.filtreCampus) }}
+    </div>
+    <div class="recherche">
+        {{ form_label(form.filtreRecherche) }}
+        {{ form_widget(form.filtreRecherche) }}
+    </div>
+    <button type="submit">Rechercher</button>
+    {{ form_end(form) }}
 
     </fieldset>
     <br>

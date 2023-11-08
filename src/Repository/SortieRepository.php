@@ -58,7 +58,13 @@ class SortieRepository extends ServiceEntityRepository
 
 
             }
-
+//            if ($filterModel->getSortiePassees()){
+//                $qb->leftJoin('s.etat', 'e' );
+//
+//                $qb->andWhere('s.etat = :Passee')
+//                    ->setParameter('etat', $filterModel->getSortiePassees());
+//
+//            }
         $query = $qb->getQuery();
         return $query->getResult();
     }
