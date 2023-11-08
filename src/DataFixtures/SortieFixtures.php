@@ -20,7 +20,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
            $sortie->setDuree($faker->numberBetween(60, 120));
            $sortie->setDateLimiteInscription($faker->dateTimeBetween('now','+2 month'));
            $sortie->setNbInscriptionMax($faker->numberBetween(1,12));
-           $sortie->setInfosSortie($faker->text);
+           $sortie->setInfosSortie($faker->sentence(10, false));
            $sortie->setOrganisateur($this->getReference('organisateur'.mt_rand(1,10)));
            $sortie->setLieu($this->getReference('lieu'.mt_rand(1,10)));
            $sortie->setCampus($this->getReference('campus'. $i));

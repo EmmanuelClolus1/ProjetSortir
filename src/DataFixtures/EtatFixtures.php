@@ -13,7 +13,7 @@ class EtatFixtures extends Fixture
     {
 
         $etat = new Etat();
-        $etat->setLibelle("Créée");
+        $etat->setLibelle("En création");
         $manager->persist($etat);
         $this->addReference('etat1', $etat);
 
@@ -28,7 +28,7 @@ class EtatFixtures extends Fixture
         $this->addReference('etat3', $etat);
 
         $etat = new Etat();
-        $etat->setLibelle("Activité en cours");
+        $etat->setLibelle("En cours");
         $manager->persist($etat);
         $this->addReference('etat4', $etat);
 
