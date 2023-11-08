@@ -26,4 +26,19 @@
         </div>
     </div>
 
+    <div class="card" style="width: 18rem;">
+
+        <div class="card-body">
+            {% if sortie.participant | length > 0 %}
+
+                {% for participant in sortie.participants %}
+                <p class="card-text">{{ participant.nom }}</p>
+                {% endfor %}
+
+            {% else %}
+                <p>Il n'y a pas d'inscrit</p>
+            {% endif %}
+        </div>
+    </div>
+
 {% endblock %}

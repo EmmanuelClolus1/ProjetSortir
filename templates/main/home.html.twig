@@ -69,11 +69,33 @@
             <td>{{ sortie.nom }}</td>
              <td>{{ sortie.dateHeureDebut | date('Y-m-d') }}</td>
             <td>{{ sortie.dateLimiteInscription | date('Y-m-d') }}</td>
-            <td>/ {{ sortie.nbInscriptionMax }}</td>
+            <td>{{ sortie.participants.count }}/ {{ sortie.nbInscriptionMax }}</td>
             <td>{{ sortie.etat.libelle }}</td>
-            <td>{# inscription #}</td>
+            <td>{% if app.user in  sortie.participants %}
+                    <img src="{{ asset('images/logo/verifier.png') }}" width="20px">
+                {% else %}
+                {% endif %}
+            </td>
+
             <td> <a href="{{ path('afficher_profil', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.nom}} {{sortie.organisateur.prenom }}</a></td>
-            <td> <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-info">Afficher</a>  | <a href="{{ path('inscription_sortie', {'id': sortie.id}) }}" class="btn btn-danger">Se désister</a> </td>
+
+            <td>
+           {% if sortie.etat.libelle == "Ouverte" and app.user.id != sortie.organisateur.id %}
+
+                {% if app.user in sortie.participants %}
+                    <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="{{ path('desinscription_sortie', {'id': sortie.id}) }}" class="btn btn-danger">Se désister</a>
+                {% else %}
+                    <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="{{ path('inscription_sortie', {'id': sortie.id}) }}" class="btn btn-success">S'inscrire</a>
+                {% endif %}
+
+           {% elseif app.user.id == sortie.organisateur.id and sortie.etat.libelle == "Ouverte"  %}
+                 <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="" class="btn btn-info">Modifier</a>
+               {% else  %}
+                   <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>
+
+           {% endif %}
+            </td>
+
 
         </tr>
     {% endfor %}

@@ -30,8 +30,6 @@ class SortieController extends AbstractController
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
-        $campusOrganisateur = $this->getUser()->getCampus();
-
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
@@ -52,7 +50,6 @@ class SortieController extends AbstractController
 
         return $this->render("Sortie/ajout_sortie.html.twig", [
             'sortieForm' => $sortieForm,
-            'campusOrganisateur' => $campusOrganisateur
         ]);
     }
 
@@ -66,15 +63,32 @@ class SortieController extends AbstractController
             ]);
     }
 
-    #[Route('sortie/{id}/desinscription', name:'inscription_sortie',requirements: ['id' => '\d+'])]
-    public function desinscription(Sortie $sortie, EntityManagerInterface $em): Response{
+    #[Route('sortie/{id}/inscription', name:'inscription_sortie',requirements: ['id' => '\d+'])]
+    public function inscription(Sortie $sortie, EntityManagerInterface $em): Response{
+
         $user=$this->getUser();
+
         $sortie->addParticipant($user);
+
         $em->persist($sortie);
         $em->flush();
-        $this->addFlash('success','ok');
-        return $this->redirectToRoute('main_home');
 
+        $this->addFlash('success','Inscription à la sortie validée');
+        return $this->redirectToRoute('main_home');
+    }
+
+    #[Route('sortie/{id}/desinscription', name:'desinscription_sortie',requirements: ['id' => '\d+'])]
+    public function desinscription(Sortie $sortie, EntityManagerInterface $em): Response{
+
+        $user=$this->getUser();
+
+        $sortie->removeParticipant($user);
+
+        $em->persist($sortie);
+        $em->flush();
+
+        $this->addFlash('success','Désinscription à la sortie validée');
+        return $this->redirectToRoute('main_home');
     }
 
 
