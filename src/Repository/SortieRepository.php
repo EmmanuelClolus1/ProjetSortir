@@ -6,7 +6,9 @@ use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\Model\FilterModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Mapping\Id;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Client\Curl\User;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -52,19 +54,22 @@ class SortieRepository extends ServiceEntityRepository
 
             }
             if ($filterModel->getSortieOrganisateur()){
+                $qb->leftJoin('s.organisateur', 'o');
 
+                $qb->andWhere('s.organisateur = :organisateur')
+                    ->setParameter('organisateur',);
             }
             if ($filterModel->getSortiePasInscrit()){
-
+                $qb->leftJoin();
 
             }
-//            if ($filterModel->getSortiePassees()){
-//                $qb->leftJoin('s.etat', 'e' );
-//
-//                $qb->andWhere('s.etat = :Passee')
-//                    ->setParameter('etat', $filterModel->getSortiePassees());
-//
-//            }
+            if ($filterModel->getSortiePassees()){
+                $qb->leftJoin('s.etat', 'e' );
+
+                $qb->andWhere('e.libelle = :etatLib')
+                    ->setParameter('etatLib', 'Passée');
+
+           }
         $query = $qb->getQuery();
         return $query->getResult();
     }
