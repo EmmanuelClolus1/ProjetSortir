@@ -151,6 +151,11 @@ class Sortie
         return $this->participants;
     }
 
+    public function getParticipant(): Collection
+    {
+        return $this->participants;
+    }
+
     public function addParticipant(Participant $participant): static
     {
         if (!$this->participants->contains($participant)) {

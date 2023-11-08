@@ -7,6 +7,7 @@ body{
 }
 h1{
     text-align: center;
+    text-shadow: 2px 2px white;
 }
 
 .navbar {
@@ -22,9 +23,12 @@ li{
     -ms-transform: scale(1.5);
     -webkit-transform: scale(1.5);
     transform: scale(1.5);
+    color: white;
 }
 
-
+#nomconnexion{
+    text-decoration: none;
+}
 
 .nav-link{
     color: white;
@@ -59,4 +63,8 @@ footer{
 }
 .carousel-inner{
     height: 600px;
+}
+#carouselExampleIndicators{
+    border: 2px solid black;
+    border-radius: 5px;
 }
