@@ -27,6 +27,7 @@ class ParticipantFixtures extends Fixture
            $participant->setEmail('user'.$i.'@test.fr');
            $motPasse = $this->userPasswordHasher->hashPassword($participant,'123456');
            $participant->setPassword($motPasse);
+
            $participant->setCampus($this->getReference('campus'. $i));
            $participant->setRoles(['ROLE_USER']);
            $manager->persist($participant);

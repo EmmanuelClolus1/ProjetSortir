@@ -22,20 +22,22 @@ class MainController extends AbstractController
         $form = $this->createForm(FilterModelType::class, $filterModel);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        // if($form->isSubmitted() && $form->isValid()) {
 
-            dump($filterModel);
-//
-       }
+        $sorties = $sortieRepo->findByFilter($filterModel);
 
-            $sorties = $sortieRepo->findAll();
-            return $this->render('main/home.html.twig',
-                [
-                    'sorties' => $sorties,
-                    'form' => $form
-
-                ]);
+        // }
 
 
-        }
+        return $this->render('main/home.html.twig',
+            [
+                'sorties' => $sorties,
+                'form' => $form,
+                'filterModel' => $filterModel
+
+
+            ]);
+
+
     }
+}
