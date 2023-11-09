@@ -24,6 +24,7 @@ use Symfony\Component\Validator\Constraints\Regex;
 
 class ParticipantType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -33,15 +34,11 @@ class ParticipantType extends AbstractType
                 'invalid_message'=>'Le mot de passe doit correspondre dans les deux champs',
                 'mapped' => false,
                 'options'=>['attr'=>['class'=>'password-field']],
-                'required'=>true,
-                'empty_data' => function ($password) {
-                    return $password;},
+                'required'=>false,
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation mot de passe'],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
+
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',

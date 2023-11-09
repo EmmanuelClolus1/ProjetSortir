@@ -5,15 +5,23 @@
 {% block body %}
     <h1>MON PROFIL</h1>
     <div class="card" style="width: 18rem;">
-        <img src="{{ asset(app_images_participant_directory ~ '/' ~ participant.filename) }}"/>
+        {% if participant.filename is empty %}
+            <img src="{{ asset('images/profil/zidane.jpg') }}"/>
+        {% else %}
+            <img src="{{ asset(app_images_participant_directory ~ '/' ~ participant.filename) }}"/>
+        {% endif %}
+
         <div class="card-body">
             <p class="card-text"><b>Nom : </b> {{ participant.nom }}</p>
             <p class="card-text"><b>Prénom : </b>{{ participant.prenom }}</p>
             <p  class="card-text"><b>Email : </b>{{ participant.email }}</p>
             <p class="card-text"><b>Téléphone </b>{{ participant.telephone }}</p>
             <p class="card-text"><b>Campus : </b>{{ participant.campus ? participant.campus.nom}}</p>
+
+            {% if app.user == participant %}
             <a href="{{ path('modifier_profil', {'id': participant.id}) }}" class="btn btn-info" title="Modifier mon profil">
                 Modifier</a>
+            {% endif %}
             <a href="{{ path('main_home') }}" class="btn btn-warning" title="">
                 Retour</a>
         </div>

@@ -20,6 +20,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank]
+    #[Assert\Regex('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',message: 'Veuillez entrer une adresse email valide.')]
+
     private ?string $email = null;
 
     #[ORM\Column]
@@ -33,15 +35,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
+    #[Assert\Regex( '/^[A-Za-zÀ-ÖØ-öø-ÿ\' -]{1,}$/',message: 'Le nom/prénom doit contenir uniquement des lettres, espaces, tirets et apostrophes.')]
+
     private ?string $nom = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
+    #[Assert\Regex( '/^[A-Za-zÀ-ÖØ-öø-ÿ\' -]{1,}$/',message: 'Le nom/prénom doit contenir uniquement des lettres, espaces, tirets et apostrophes.')]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 20, nullable: true)]
     #[Assert\Regex('^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$^')]
-
     private ?string $telephone = null;
 
     #[ORM\Column(options: ['default'=>false])]
