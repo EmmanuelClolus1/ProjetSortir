@@ -3,16 +3,26 @@
 
 {% block body %}
 
-        {{ form_start(sortieForm) }}
-    {{ form_widget(sortieForm) }}
+        <form class="row g-2 mt-5 align-middle">
+            {{ form_start(sortieForm) }}
+            <div class="col-6">
+                {{ form_row(sortieForm.nom) }}
+                {{ form_row(sortieForm.dateHeureDebut) }}
+                {{ form_row(sortieForm.dateLimiteInscription) }}
+                {{ form_row(sortieForm.nbInscriptionMax) }}
+                {{ form_row(sortieForm.duree) }}
+                {{ form_row(sortieForm.infosSortie) }}
+                {{ form_row(sortieForm.campus) }}
 
-    <a href="{{ path('ajouter_lieu') }}" class="btn btn-warning">Ajouter Lieu</a>
-    <button class="btn btn-success">Créer</button>
-
-        {{ form_end(sortieForm) }}
-
-
-
+                <button class="btn btn-success">Créer</button>
+            </div>
+            <div class="col-6">
+                {{ form_row(sortieForm.ville) }}
+                {{ form_row(sortieForm.lieu) }}
+                <a href="{{ path('ajouter_lieu') }}" class="btn btn-warning">Ajouter Lieu</a>
+            </div>
+            {{ form_end(sortieForm) }}
+        </form>
 
 
 
