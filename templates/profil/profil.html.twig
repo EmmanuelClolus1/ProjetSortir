@@ -12,8 +12,11 @@
             <p  class="card-text"><b>Email : </b>{{ participant.email }}</p>
             <p class="card-text"><b>Téléphone </b>{{ participant.telephone }}</p>
             <p class="card-text"><b>Campus : </b>{{ participant.campus ? participant.campus.nom}}</p>
+
+            {% if app.user == participant %}
             <a href="{{ path('modifier_profil', {'id': participant.id}) }}" class="btn btn-info" title="Modifier mon profil">
                 Modifier</a>
+            {% endif %}
             <a href="{{ path('main_home') }}" class="btn btn-warning" title="">
                 Retour</a>
         </div>

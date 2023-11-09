@@ -3,11 +3,17 @@
 
 {% block body %}
 
-    {{ form_start(sortieForm) }}
-
+        {{ form_start(sortieForm) }}
     {{ form_widget(sortieForm) }}
 
-    <button class="btn btn-primary">Créer</button>
-    {{ form_end(sortieForm) }}
+    <a href="{{ path('ajouter_lieu') }}" class="btn btn-warning">Ajouter Lieu</a>
+    <button class="btn btn-success">Créer</button>
+
+        {{ form_end(sortieForm) }}
+
+
+
+
+
 
 {%  endblock %}

@@ -31,23 +31,32 @@
         </button>
     </div>
 
-    <h2>Filtrer les sorties</h2>
-    {{ form_start(form) }}
-    <div class="campus">
-    {{ form_label(form.filtreCampus) }}
-    {{ form_widget(form.filtreCampus) }}
-    </div>
-    <div class="recherche">
-        {{ form_label(form.filtreRecherche) }}
-        {{ form_widget(form.filtreRecherche) }}
-    </div>
+    <form class="row g-2 mt-5 align-middle">
+        {{ form_start(form) }}
+        <div class="col-6">
+            {{ form_row(form.filtreRecherche) }}
+            {{ form_row(form.filtreCampus) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(form.dateDebut) }}
+            {{ form_row(form.dateFin) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(form.sortieInscrit) }}
+            {{ form_row(form.sortiePassees) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(form.sortieOrganisateur) }}
+            {{ form_row(form.sortiePasInscrit) }}
+        </div>
+        {{ form_end(form) }}
+    </form>
 
-    {{ form_end(form) }}
 
     </fieldset>
     <br>
     <table class="table">
-    <thead>
+    <thead class="text-center">
 
     <tr>
     <th>Nom de la sortie</th>
@@ -61,15 +70,15 @@
     </tr>
 
     </thead>
-    <tbody>
+    <tbody class="text-center">
     {% for sortie in sorties %}
 
 
         <tr>
-            <td>{{ sortie.nom }}</td>
+            <td class="text-start">{{ sortie.nom }}</td>
              <td>{{ sortie.dateHeureDebut | date('Y-m-d') }}</td>
             <td>{{ sortie.dateLimiteInscription | date('Y-m-d') }}</td>
-            <td>{{ sortie.participants.count }}/ {{ sortie.nbInscriptionMax }}</td>
+            <td >{{ sortie.participants.count }}/ {{ sortie.nbInscriptionMax }}</td>
             <td>{{ sortie.etat.libelle }}</td>
             <td>{% if app.user in  sortie.participants %}
                     <img src="{{ asset('images/logo/verifier.png') }}" width="20px">
@@ -79,7 +88,7 @@
 
             <td> <a href="{{ path('afficher_profil', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.nom}} {{sortie.organisateur.prenom }}</a></td>
 
-            <td>
+            <td class="text-start">
            {% if sortie.etat.libelle == "Ouverte" and app.user.id != sortie.organisateur.id %}
 
                 {% if app.user in sortie.participants %}
@@ -88,8 +97,8 @@
                     <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="{{ path('inscription_sortie', {'id': sortie.id}) }}" class="btn btn-success">S'inscrire</a>
                 {% endif %}
 
-           {% elseif app.user.id == sortie.organisateur.id and sortie.etat.libelle == "Ouverte"  %}
-                 <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="" class="btn btn-info">Modifier</a>
+           {% elseif app.user == sortie.organisateur and sortie.etat.libelle == "Ouverte"  %}
+                 <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>  | <a href="{{ path('modifier_sortie', {'id': sortie.id}) }}" class="btn btn-info">Modifier</a>
                {% else  %}
                    <a href="{{ path('details_sortie', {'id': sortie.id}) }}" class="btn btn-warning">Afficher</a>
 

@@ -32,7 +32,7 @@
             {% if sortie.participant | length > 0 %}
 
                 {% for participant in sortie.participants %}
-                <p class="card-text">{{ participant.nom }}</p>
+                <p class="card-text">{{ participant.nom }} {{ participant.prenom }}</p>
                 {% endfor %}
 
             {% else %}

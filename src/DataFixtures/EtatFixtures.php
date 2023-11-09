@@ -33,7 +33,7 @@ class EtatFixtures extends Fixture
         $this->addReference('etat4', $etat);
 
         $etat = new Etat();
-        $etat->setLibelle("Passee");
+        $etat->setLibelle("Passée");
         $manager->persist($etat);
         $this->addReference('etat5', $etat);
 

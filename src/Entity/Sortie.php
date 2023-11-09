@@ -26,23 +26,27 @@ class Sortie
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\NotBlank(message:'La saisie de l\'heure de début est obligatoire.')]
+    #[Assert\GreaterThan('today', message: 'La date de début de la sortie supérieur à la date du jour')]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message:'La durée de la sortie est obligatoire.')]
+    #[Assert\GreaterThan('0', message: 'La durée de la sortie doit être supérieur à 0 min')]
     private ?int $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\NotBlank(message:'La date limite d\'inscription est obligatoire.')]
+    #[Assert\LessThan(propertyPath: 'dateHeureDebut', message: 'La date limite d\'inscription doit être inférieur à la date de début de la sortie')]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message:'La nombre maximum d\'inscrits est obligatoire.')]
+    #[Assert\GreaterThan('0', message: 'Le nombre maximum d\'inscrit doit être au minimum de 1')]
     private ?int $nbInscriptionMax = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message:'Les infos concernat la sortie sont obligatoires.')]
-    #[Assert\Length(min: 20, max: 250, minMessage: 'La description doit faire au minimum 20 caractères.', maxMessage: 'La description doit faire maximum 250 caractères.')]
+    #[Assert\NotBlank(message:'Les infos concernant la sortie sont obligatoires.')]
+    #[Assert\Length(min: 10, max: 250, minMessage: 'La description doit faire au minimum 10 caractères.', maxMessage: 'La description doit faire maximum 250 caractères.')]
     private ?string $infosSortie = null;
 
     #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: 'Sortie')]

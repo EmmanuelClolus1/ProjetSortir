@@ -36,10 +36,10 @@ class SortieController extends AbstractController
 
             $sortie->setOrganisateur($this->getUser());
 
-            if ($sortieForm->isSubmitted() && ($sortie->getDateLimiteInscription() > $sortie->getDateHeureDebut())){
-                $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
-                $sortie->setEtat($etat);
-            };
+
+            $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
+            $sortie->setEtat($etat);
+
 
             $em->persist($sortie);
             $em->flush();
@@ -49,6 +49,42 @@ class SortieController extends AbstractController
         }
 
         return $this->render("Sortie/ajout_sortie.html.twig", [
+            'sortieForm' => $sortieForm,
+        ]);
+    }
+
+    #[Route('/{id}/modifier', name: 'modifier_sortie', requirements: ['id' => '\d+'], methods: ['GET','POST']) ]
+    public function modifierSortie(Request $request, EntityManagerInterface $em, Sortie $sortie): Response
+    {
+
+        if($this->getUser() == $sortie->getOrganisateur())
+        {
+            $sortieForm = $this->createForm(SortieType::class, $sortie);
+
+            $sortieForm->handleRequest($request);
+
+            if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+                $sortie->setOrganisateur($this->getUser());
+
+
+            $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
+            $sortie->setEtat($etat);
+
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash('success','La sortie à bien été modifiée');
+                return $this->redirectToRoute('details_sortie', ['id'=>$sortie->getId()]);
+            }
+        }
+        else
+        {
+            $this->addFlash('warning', 'Vous ne pouvez pas modifier cette sortie');
+            return $this->redirectToRoute('main_home');
+        }
+
+        return $this->render("Sortie/modifier_sortie.html.twig", [
             'sortieForm' => $sortieForm,
         ]);
     }
@@ -63,21 +99,34 @@ class SortieController extends AbstractController
             ]);
     }
 
-    #[Route('sortie/{id}/inscription', name:'inscription_sortie',requirements: ['id' => '\d+'])]
+    #[Route('/{id}/inscription', name:'inscription_sortie',requirements: ['id' => '\d+'])]
     public function inscription(Sortie $sortie, EntityManagerInterface $em): Response{
 
         $user=$this->getUser();
 
-        $sortie->addParticipant($user);
+        if ($sortie->getEtat()->getLibelle() == 'Ouverte'){
+            if ((count($sortie->getParticipants())) < $sortie->getNbInscriptionMax() && !$sortie->getParticipant()->contains($this->getUser())){
 
-        $em->persist($sortie);
-        $em->flush();
+                $sortie->addParticipant($user);
 
-        $this->addFlash('success','Inscription à la sortie validée');
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash('success','Inscription à la sortie validée');
+            }
+            else{
+                $this->addFlash('warning','Vous êtes déjà inscrit à cette sortie ou le nombre maximum d\'inscrit est atteint');
+                return $this->redirectToRoute('main_home');
+            }
+        }else{
+            $this->addFlash('warning','Il n\'est pas possible de de s\'inscrire à cette sortie' );
+            return $this->redirectToRoute('main_home');
+        }
+
         return $this->redirectToRoute('main_home');
     }
 
-    #[Route('sortie/{id}/desinscription', name:'desinscription_sortie',requirements: ['id' => '\d+'])]
+    #[Route('/{id}/desinscription', name:'desinscription_sortie',requirements: ['id' => '\d+'])]
     public function desinscription(Sortie $sortie, EntityManagerInterface $em): Response{
 
         $user=$this->getUser();
