@@ -32,7 +32,11 @@ class SortieRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('s')
             ->leftJoin('s.campus', 'c')
             ->leftJoin('s.organisateur', 'o')
-            ->leftJoin('s.etat', 'e');
+            ->leftJoin('s.etat', 'e')
+            ->leftJoin('s.participants','p')
+            ->addSelect('p')
+            ->addSelect('c')
+            ->addSelect('e');
 
         $qb->andWhere('(:campus IS NULL OR s.campus = :campus)')
             ->andWhere('(:nom IS NULL OR s.nom LIKE :nom)')
@@ -55,6 +59,8 @@ class SortieRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
+
+
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
