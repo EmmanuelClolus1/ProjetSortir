@@ -31,7 +31,6 @@ class SortieRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('s')
             ->leftJoin('s.campus', 'c')
-            ->leftJoin('s.organisateur', 'o')
             ->leftJoin('s.etat', 'e')
             ->leftJoin('s.participants','p')
             ->addSelect('p')
