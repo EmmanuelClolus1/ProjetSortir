@@ -40,7 +40,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('campus', $filterModel->getFiltreCampus());
         }
         if ($filterModel->getFiltreRecherche()) {
-            $recherche = $filterModel->getFiltreRecherche(); // Get the search value from the filter model
+            $recherche = $filterModel->getFiltreRecherche(); 
 
             $qb->andWhere('s.nom LIKE :nom')
                 ->setParameter('nom', '%' . $recherche . '%');

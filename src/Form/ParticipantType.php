@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ParticipantType extends AbstractType
 {
@@ -33,6 +34,8 @@ class ParticipantType extends AbstractType
                 'mapped' => false,
                 'options'=>['attr'=>['class'=>'password-field']],
                 'required'=>true,
+                'empty_data' => function ($password) {
+                    return $password;},
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation mot de passe'],
                 'constraints' => [
@@ -45,6 +48,10 @@ class ParticipantType extends AbstractType
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
+                    new Regex([
+                        'pattern' => "/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !\"\#\$%&\'\(\)*+,\-.\/:;<=>?@[\\^\]_`\{|\}~])^.{0,4096}$/",
+                        'message' => 'Le mot de passe doit contenir obligatoirement une minuscule, une majuscule, un chiffre et un caractère spécial.',
+                    ])
                 ],
             ])
 
