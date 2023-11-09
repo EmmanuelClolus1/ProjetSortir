@@ -36,6 +36,8 @@ class ProfilController extends AbstractController
         $participantForm->handleRequest($request);
 
         if ($participantForm->isSubmitted() && $participantForm->isValid()){
+            $password = $participantForm->get('plainPassword')->getData();
+            if ($password)
             $participant->setPassword(
                 $userPasswordHasher->hashPassword(
                     $participant,
