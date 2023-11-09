@@ -31,7 +31,7 @@ class Sortie
 
     #[ORM\Column]
     #[Assert\NotBlank(message:'La durée de la sortie est obligatoire.')]
-    #[Assert\GreaterThan('1', message: 'La durée de la sortie doit être supérieur à 0 min')]
+    #[Assert\GreaterThan('0', message: 'La durée de la sortie doit être supérieur à 0 min')]
     private ?int $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -41,6 +41,7 @@ class Sortie
 
     #[ORM\Column]
     #[Assert\NotBlank(message:'La nombre maximum d\'inscrits est obligatoire.')]
+    #[Assert\GreaterThan('0', message: 'Le nombre maximum d\'inscrit doit être au minimum de 1')]
     private ?int $nbInscriptionMax = null;
 
     #[ORM\Column(type: Types::TEXT)]

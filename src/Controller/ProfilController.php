@@ -32,24 +32,31 @@ class ProfilController extends AbstractController
     #[Route('/profil/{id}/modifier', name: 'modifier_profil', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function modifier(FileUploader $fileUploader, Request $request,Participant $participant,EntityManagerInterface $em,UserPasswordHasherInterface $userPasswordHasher):Response
     {
-        $participantForm=$this->createForm(ParticipantType::class,$participant);
-        $participantForm->handleRequest($request);
+       if ($this->getUser() == $participant){
+           $participantForm=$this->createForm(ParticipantType::class,$participant);
+           $participantForm->handleRequest($request);
 
-        if ($participantForm->isSubmitted() && $participantForm->isValid()){
-            $participant->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $participant,
-                    $participantForm->get('plainPassword')->getData()
-                ));
-            $imageFile = $participantForm->get('image')->getData();
-            if ($imageFile){
-                $participant->setFilename($fileUploader->upload($imageFile));
-            }
-            $em->persist($participant);
-            $em->flush();
-            $this->addFlash('success', 'Le profil a été modifié');
-            return $this->redirectToRoute('mon_profil', ['id' => $participant->getId()]);
-        }
+           if ($participantForm->isSubmitted() && $participantForm->isValid()){
+               $participant->setPassword(
+                   $userPasswordHasher->hashPassword(
+                       $participant,
+                       $participantForm->get('plainPassword')->getData()
+                   ));
+               $imageFile = $participantForm->get('image')->getData();
+               if ($imageFile){
+                   $participant->setFilename($fileUploader->upload($imageFile));
+               }
+               $em->persist($participant);
+               $em->flush();
+               $this->addFlash('success', 'Le profil a été modifié');
+               return $this->redirectToRoute('mon_profil', ['id' => $participant->getId()]);
+           }
+       }
+       else{
+           $this->addFlash('danger', 'Vous ne pouvez pas modifier ce profil');
+           return $this->redirectToRoute('main_home');
+       }
+
         return $this->render('profil/modifier.html.twig',['ParticipantForm'=>$participantForm]);
     }
     #[Route('/profil/{id}/afficher', name: 'afficher_profil',requirements: ['id' => '\d+'], methods: ['GET'])]
