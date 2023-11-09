@@ -16,6 +16,13 @@
         <header>
              {% include '_navbar.html.twig' %}
         </header>
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
         {% block body %}{% endblock %}
     <footer>
         <div>&copy; {{ "now" | date('Y') }} Sortir.com</div>
