@@ -37,24 +37,57 @@ class SortieRepository extends ServiceEntityRepository
             ->addSelect('c')
             ->addSelect('e');
 
-        $qb->andWhere('(:campus IS NULL OR s.campus = :campus)')
-            ->andWhere('(:nom IS NULL OR s.nom LIKE :nom)')
-            ->andWhere('(:date_heure_debut IS NULL OR s.dateHeureDebut >= :date_heure_debut)')
-            ->andWhere('(:date_limite_inscription IS NULL OR s.dateLimiteInscription <= :date_limite_inscription)')
-            ->andWhere('(:sortieInscrit IS NULL OR :sortieInscrit MEMBER OF s.participants)')
-            ->andWhere('(:organisateur IS NULL OR s.organisateur = :organisateur)')
-            ->andWhere('(:sortiePasInscrit IS NULL OR :sortiePasInscrit NOT MEMBER OF s.participants)')
-            ->andWhere('(:sortiePassees IS NULL OR e.libelle = :etatLib)')
-            ->setParameter('campus', $filterModel->getFiltreCampus())
-            ->setParameter('nom', $filterModel->getFiltreRecherche() ? '%' . $filterModel->getFiltreRecherche() . '%' : null)
-            ->setParameter('date_heure_debut', $filterModel->getDateDebut())
-            ->setParameter('date_limite_inscription', $filterModel->getDateFin())
-            ->setParameter('sortieInscrit', $filterModel->getSortieInscrit() ? $this->security->getUser() : null)
-            ->setParameter('organisateur', $filterModel->getSortieOrganisateur() ? $this->security->getUser() : null)
-            ->setParameter('sortiePasInscrit', $filterModel->getSortiePasInscrit() ? $this->security->getUser() : null)
-            ->setParameter('sortiePassees', $filterModel->getSortiePassees() ? 'Passée' : null)
-            ->setParameter('etatLib', $filterModel->getSortiePassees() ? 'Passée' : null);
 
+        if ($filterModel->getFiltreCampus()) {
+
+
+            $qb->andWhere('s.campus = :campus')
+                ->setParameter('campus', $filterModel->getFiltreCampus());
+        }
+        if ($filterModel->getFiltreRecherche()) {
+            $recherche = $filterModel->getFiltreRecherche();
+
+            $qb->andWhere('s.nom LIKE :nom')
+                ->setParameter('nom', '%' . $recherche . '%');
+        }
+        if ($filterModel->getDateDebut()) {
+        $qb->andWhere('s.dateHeureDebut >= :date_heure_debut')
+            ->setParameter('date_heure_debut', $filterModel->getDateDebut());
+        }
+
+
+        if ($filterModel->getDateFin()) {
+            $qb->andWhere('s.dateLimiteInscription <= :date_limite_inscription')
+                ->setParameter('date_limite_inscription', $filterModel->getDateFin());
+        }
+
+
+        if ($filterModel->getSortieInscrit()) {
+        $qb->andWhere(':sortieInscrit MEMBER OF s.participants')
+        ->setParameter('sortieInscrit', $this->security->getUser());
+        }
+
+
+        if ($filterModel->getSortieOrganisateur()) {
+            $qb->leftJoin('s.organisateur', 'o');
+
+            $qb->andWhere('s.organisateur = :organisateur')
+                ->setParameter('organisateur', $this->security->getUser());
+        }
+
+
+        if ($filterModel->getSortiePasInscrit()) {
+            $qb->andWhere(':sortieInscrit NOT MEMBER OF s.participants')
+                ->setParameter('sortieInscrit', $this->security->getUser());
+        }
+
+
+        if ($filterModel->getSortiePassees()) {
+
+            $qb->andWhere('e.libelle = :etatLib')
+                ->setParameter('etatLib', 'Passée');
+
+        }
         $query = $qb->getQuery();
         return $query->getResult();
     }

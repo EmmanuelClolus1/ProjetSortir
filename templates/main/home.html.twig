@@ -31,27 +31,18 @@
         </button>
     </div>
 
-    <form class="row g-2 mt-5 align-middle">
-        {{ form_start(form) }}
-        <div class="col-6">
-            {{ form_row(form.filtreRecherche) }}
-            {{ form_row(form.filtreCampus) }}
-        </div>
-        <div class="col-6">
-            {{ form_row(form.dateDebut) }}
-            {{ form_row(form.dateFin) }}
-        </div>
-        <div class="col-6">
-            {{ form_row(form.sortieInscrit) }}
-            {{ form_row(form.sortiePassees) }}
-        </div>
-        <div class="col-6">
-            {{ form_row(form.sortieOrganisateur) }}
-            {{ form_row(form.sortiePasInscrit) }}
-        </div>
-        {{ form_end(form) }}
-    </form>
+   <h2>Filtrer les sorties</h2>
+    {{ form_start(form) }}
+    <div class="campus">
+    {{ form_label(form.filtreCampus) }}
+    {{ form_widget(form.filtreCampus) }}
+    </div>
+    <div class="recherche">
+        {{ form_label(form.filtreRecherche) }}
+        {{ form_widget(form.filtreRecherche) }}
+    </div>
 
+    {{ form_end(form) }}
 
     </fieldset>
     <br>
