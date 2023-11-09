@@ -64,16 +64,23 @@ class SortieController extends AbstractController
 
             $sortie->setOrganisateur($this->getUser());
 
-            if ($sortieForm->isSubmitted() && ($sortie->getDateLimiteInscription() > $sortie->getDateHeureDebut())){
-                $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
-                $sortie->setEtat($etat);
-            };
 
-            $em->persist($sortie);
-            $em->flush();
+            $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
+            $sortie->setEtat($etat);
 
-            $this->addFlash('success','La sortie à bien été créée');
-            return $this->redirectToRoute('details_sortie', ['id'=>$sortie->getId()]);
+            if($this->getUser() == $sortie->getOrganisateur())
+            {
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash('success','La sortie à bien été modifiée');
+                return $this->redirectToRoute('details_sortie', ['id'=>$sortie->getId()]);
+            }
+            else
+            {
+                $this->addFlash('warning', 'Vous ne pouvez pas modifier la sortie');
+            }
+
         }
 
         return $this->render("Sortie/modifier_sortie.html.twig", [
